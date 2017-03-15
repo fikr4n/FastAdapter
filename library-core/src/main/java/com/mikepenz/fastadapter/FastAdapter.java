@@ -1121,7 +1121,12 @@ public class FastAdapter<Item extends IItem> extends RecyclerView.Adapter<Recycl
                 if (considerSelectableFlag && !item.isSelectable()) {
                     continue;
                 }
-                item.withSetSelected(true);
+                if (!item.isSelected()) {
+                    item.withSetSelected(true);
+                    if (mSelectionListener != null) {
+                        mSelectionListener.onSelectionChanged(item, true);
+                    }
+                }
             }
             notifyDataSetChanged();
         }
